@@ -1,6 +1,3 @@
-
-GitHub contains a code book that modifies and updates the available codebooks with the data to indicate all the variables and summaries calculated, along with units, and any other relevant information.
-
 Code Book
 ========
 ### Source Data Description 
@@ -22,34 +19,19 @@ For each record in the dataset it is provided:
 - Its activity label. 
 - An identifier of the subject who carried out the experiment.
  
-The set of variables that were estimated from these signals are: 
+## Tidy Data Set
+The set of variables found in the Tidy Data Set are: 
 
 *  mean(): Mean value
-*  std(): Standard deviation
-*  mad(): Median absolute deviation 
-*  max(): Largest value in array
-*  min(): Smallest value in array
-*  sma(): Signal magnitude area
-*  energy(): Energy measure. Sum of the squares divided by the number of values. 
-*  iqr(): Interquartile range 
-*  entropy(): Signal entropy
-*  arCoeff(): Autoregression coefficients with Burg order equal to 4
-*  correlation(): Correlation coefficient between two signals
-*  maxInds(): Index of the frequency component with largest magnitude
-*  meanFreq(): Weighted average of the frequency components to obtain a mean frequency
-*  skewness(): Skewness of the frequency domain signal 
-*  kurtosis(): Kurtosis of the frequency domain signal 
-*  bandsEnergy(): Energy of a frequency interval within the 64 bins of the FFT
-   of each window.
-*  angle(): Angle between some vectors.
+*  std(): Standard deviation 
 
 No unit of measures is reported as all features were normalized and bounded
 within [-1,1].
 
-Data Transformation with run_analysis.R
+##Data Transformation with run_analysis.R
 ---------------------------------------
 
-The raw data sets are processed with run_analisys.R script to create a tidy data 
+The raw data sets are processed with run_analisys.R script to create a tidy dataset
 
 ### Merge training and test sets
 Test and training data (X_train.txt, X_test.txt), subject ids (subject_train.txt,
