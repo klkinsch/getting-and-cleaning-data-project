@@ -23,3 +23,13 @@ The purpose of this project is to demonstrate ability to collect, work with, and
 2. open a R console and set the working directory to the repository root (use setwd())
 3. source run_analisys.R script (it requires the plyr package): `source('run_analysis.R')` 
 4. After completion, you will find the file `tidydata.txt` in the repository root directory
+
+
+##License
+========
+Use of the dataset in publications must be acknowledged by referencing the following publication [1] 
+
+[1] Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. A Public Domain Dataset for Human Activity Recognition Using Smartphones. 21th European Symposium on Artificial Neural Networks, Computational Intelligence and Machine Learning, ESANN 2013. Bruges, Belgium 24-26 April 2013. 
+
+This dataset is distributed AS-IS and no responsibility implied or explicit can be addressed to the authors or their institutions for its use or misuse. Any commercial use is prohibited.
+
