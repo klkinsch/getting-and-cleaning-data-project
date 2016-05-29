@@ -8,8 +8,6 @@ A full description of the data used in this project can be found at [The UCI Mac
 ==================================================================
 The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
 
-The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. 
-
 ### Attribute Information:
 
 For each record in the dataset it is provided: 
@@ -19,47 +17,107 @@ For each record in the dataset it is provided:
 - Its activity label. 
 - An identifier of the subject who carried out the experiment.
  
+### Feature Selection 
+The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
+
+Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). 
+
+Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). 
+
+These signals were used to estimate variables of the feature vector for each pattern:  
+'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
+
+tBodyAcc-XYZ
+tGravityAcc-XYZ
+tBodyAccJerk-XYZ
+tBodyGyro-XYZ
+tBodyGyroJerk-XYZ
+tBodyAccMag
+tGravityAccMag
+tBodyAccJerkMag
+tBodyGyroMag
+tBodyGyroJerkMag
+fBodyAcc-XYZ
+fBodyAccJerk-XYZ
+fBodyGyro-XYZ
+fBodyAccMag
+fBodyAccJerkMag
+fBodyGyroMag
+fBodyGyroJerkMag
+
 ## Tidy Data Set
 The set of variables found in the Tidy Data Set are: 
 
 *  mean(): Mean value
 *  std(): Standard deviation 
 
-No unit of measures is reported as all features were normalized and bounded
-within [-1,1].
+Notes: 
+======
+- No units of measure are provided because Features are normalized and bounded within [-1,1].
 
-##Data Transformation with run_analysis.R
+### Data Transformation with run_analysis.R
 ---------------------------------------
-
 The raw data sets are processed with run_analisys.R script to create a tidy dataset
 
 ### Merge training and test sets
-Test and training data (X_train.txt, X_test.txt), subject ids (subject_train.txt,
-subject_test.txt) and activity ids (y_train.txt, y_test.txt) are merged to obtain
-a single data set. Variables are labelled with the names assigned by original
-collectors (features.txt).
+Test and training data are merged into a single data set
+     X_train.txt
+     X_test.txt
+     subject_train.txt
+     subject_test.txt
+     y_train.txt
+     y_test.txt
+Variables labels are assigned per the original collector as noted in features.txt 
 
 ### Extract mean and standard deviation variables
-From the merged data set is extracted and intermediate data set with only the
-values of estimated mean (variables with labels that contain "mean") and standard
-deviation (variables with labels that contain "std").
+Variables with labels that contain "mean" and "std" are extracted 
 
 ### Use descriptive activity names
-A new column is added to intermediate data set with the activity description.
-Activity id column is used to look up descriptions in activity_labels.txt.
+A new column is added with the activity description - Activity id column is used to join labels from activity_labels.txt.
 
 ### Label variables appropriately
 Labels given from the original collectors were changed:
-* to obtain valid R names without parentheses, dashes and commas
-* to obtain more descriptive labels
+* valid R names without parentheses or dashes 
+* descriptive labels by exanding abbreviation
 
 ### Create a tidy data set
-From the intermediate data set a tidy data set where numeric
-variables are averaged for each activity and each subject.
+Numeric variables are averaged for each activity and each subject
 
 The tidy data variables:
-
 *  activity: WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING
 *  subject: identifier of the subject who carried out the experiment  
-*  a 79-feature vector with time and frequency domain signal variables (numeric)
+*  a 79-feature time and frequency means
+The following table represents the original data source feature names to the tidy data set variable names.  
+"(mean-std)" denotes the measure and "XYZ" denotes three variables, one for each axis.
+
+Original Data Set Feature Labels	     | Corresponding Tidy Data Feature Labels                       |   
+------------------------------------- | ------------------------------------------------------------ | 
+tBodyAcc-XYZ	                        | timebodyacceleration(mean-std)XYZ        |                           
+tGravityAcc-XYZ	                    | timegravityaccelerationmean(mean-std)XYZ |
+tBodyAccJerk-XYZ	                   | timebodyaccelerationjerk(mean-std)XYZ |
+tBodyGyro-XYZ	                      | timebodyangularspeed(mean-std)XYZ |
+tBodyGyroJerk-XYZ	                  | timebodyangularacceleration(mean-std)XYZ |
+tBodyAccMag	                        | timebodyaccelerationmagnitude(mean-std)XYZ
+tGravityAccMag	                     | timegravityaccelerationmagnitude(mean-std)XYZ
+tBodyAccJerkMag	                    | timebodyaccelerationjerkmagnitude(mean-std)XYZ
+tBodyGyroMag	                       | timebodyangularspeedmagnitude(mean-std)XYZ
+tBodyGyroJerkMag	                   | timebodyangularspeedmagnitude(mean-std)XYZ
+fBodyAcc-XYZ	                       | frequencybodyacceleration(mean-std)XYZ
+fBodyAccJerk-XYZ	                   | frequencybodyaccelerationjerk(mean-std)XYZ
+fBodyGyro-XYZ	                      | frequencybodyangularspeed(mean-std)XYZ
+fBodyAccMag	                        | frequencybodyaccelerationmagnitude(mean-std)XYZ
+fBodyAccJerkMag	                    | frequencybodyaccelerationjerk(mean-std)XYZ
+fBodyGyroMag	                       | frequencybodyangularspeed(mean-std)XYZ
+fBodyGyroJerkMag	                   | frequencybodyangularaccelerationmagnitude(mean-std)XYZ
  
+
+Original Data License:
+========
+Use of this dataset in publications must be acknowledged by referencing the following publication [1] 
+
+[1] Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012
+
+The original dataset is distributed AS-IS and no responsibility implied or explicit can be addressed to the authors or their institutions for its use or misuse. Any commercial use is prohibited.
+
+Jorge L. Reyes-Ortiz, Alessandro Ghio, Luca Oneto, Davide Anguita. November 2012.
+
