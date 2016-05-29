@@ -1,16 +1,6 @@
-#  
-
-#website represent data collected from the accelerometers from the Samsung Galaxy S smartphone. A full description is available at the site where the data was obtained:
+ #  run_analysis.R that does the following.
 #
-#    http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
-#
-#Here are the data for the project:
-#     
-# Datasource:    https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
-#
-#You should create one R script called run_analysis.R that does the following.
-#
-#   Function 
+#   
 #      1.  Merges the training and the test sets to create one data set.
 #      2.  Extracts only the measurements on the mean and standard deviation for each measurement.
 #      3.  Uses descriptive activity names to name the activities in the data set
@@ -18,6 +8,16 @@
 #      5.  From the data set in step 4, creates a second, independent
 #         tidy data set with the average of each variable for each 
 #      activity and each subject.
+
+#    Data collected from the accelerometers from the Samsung Galaxy S smartphone. 
+#     A full description is available at the site where the data was obtained:
+#
+#    http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+#
+#    Data for the project:
+#     
+#    Datasource:    https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
+#
 
 require(plyr)
 #     Download and unzip source data
@@ -48,7 +48,6 @@ featuresTrain <- read.table(file.path(dfpath, "train", "X_train.txt"),header = F
 featureNames <- read.table(file.path(dfpath, "features.txt"), header = FALSE)
 features <- rbind(featuresTrain, featuresTest)
 
-
 #  Set meaningful names to data
 names(subject) <- c("subject")
 names(activity) <- c("activityId")
@@ -69,6 +68,10 @@ data <- subset(data, select = relCol)
 activityNames <- read.table(file.path(dfpath, "activity_labels.txt"), header = FALSE, col.names = c("activityId", "activity"))
 data <- join(data, activityNames, by = "activityId", match = "first")
 
+relCol <- c("subject", "activity", as.character(relNames))
+data <- subset(data, select = relCol)
+
+
 #   Appropriately labels the data set with descriptive variable names.
 names(data)<-gsub("^t", "time", names(data))
 names(data)<-gsub("^f", "frequency", names(data))
@@ -78,7 +81,7 @@ names(data)<-gsub("Gyro", "AngularSpeed", names(data))
 names(data)<-gsub("Mag", "Magnitude", names(data))
 names(data)<-gsub("BodyBody", "Body", names(data))
  
-#Remove parentheses
+#Remove parentheses, hyphens and makes lowercase
 names(data) <- gsub('\\(|\\)',"",names(data), perl = TRUE)
 names(data) <- gsub("-","",names(data))
 names(data) <- tolower(names(data))
@@ -89,7 +92,5 @@ names(data) <- tolower(names(data))
 #         tidy data set with the average of each variable for each 
 #      activity and each subject.
 dataActSub = ddply(data, c("subject","activity"), numcolwise(mean))
-write.table(dataActSub, file= "tidydata.txt", row.names = FALSE)
-
- 
+write.table(dataActSub, file= "tidydata.txt", row.names = FALSE) 
 
